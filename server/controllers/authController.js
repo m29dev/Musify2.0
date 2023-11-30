@@ -107,11 +107,10 @@ const request = require('request')
 // new access
 const auth = async (req, res) => {
     try {
-        // .env add
-        var client_id = '69dee920ca9740d3987bdb06dd96028d'
-        var client_secret = '2aaea6c7ccf24a0889b28dcc7b7975df'
+        const client_id = process.env.SPOTIFY_CLIENT_ID
+        const client_secret = process.env.SPOTIFY_CLIENT_SECRET
 
-        var authOptions = {
+        const authOptions = {
             url: 'https://accounts.spotify.com/api/token',
             headers: {
                 Authorization:
