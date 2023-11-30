@@ -125,7 +125,7 @@ svg {
     height: 100%;
     padding: 0px;
     max-height: 100%;
-    margin-bottom: 55px;
+    margin-bottom: 74px;
     overflow: auto;
 }
 .leftbar-table-item {
@@ -725,6 +725,11 @@ div.card-body {
 }
 leftbar div.card {
     min-height: 245px;
+}
+.btn-search {
+    width: 70px;
+    border-radius: 18px;
+    margin-right: 12px;
 }
 
 /* active song */

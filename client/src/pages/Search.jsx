@@ -11,6 +11,7 @@ import SearchResultArtists from '../components/searchResultArtists'
 import SearchResultAlbums from '../components/searchResultAlbums'
 import { useSearchParams } from 'react-router-dom'
 import { clearAuthInfo } from '../redux/authSlice'
+import Button from 'react-bootstrap/Button'
 
 const Search = () => {
     const { authInfo } = useSelector((state) => state.auth)
@@ -233,20 +234,25 @@ const Search = () => {
             <Navbar></Navbar>
 
             <div>
-                <button
+                <Button
+                    className="btn-search"
+                    disabled={queryType === 'text' ? true : false}
                     onClick={() => {
                         changeQueryType('text')
                     }}
                 >
                     Text
-                </button>
-                <button
+                </Button>
+
+                <Button
+                    className="btn-search"
+                    disabled={queryType === 'id' ? true : false}
                     onClick={() => {
                         changeQueryType('id')
                     }}
                 >
-                    ID / Link
-                </button>
+                    Link
+                </Button>
             </div>
 
             {/* search nav */}
