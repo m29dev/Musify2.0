@@ -3,7 +3,7 @@ import { Form } from 'react-bootstrap'
 import { useCallback, useEffect, useState } from 'react'
 import {
     // useSearchQueryAdvanceMutation,
-    useSearchQueryMutation,
+    // useSearchQueryMutation,
     useSearchQueryPostMutation,
 } from '../services/musicService'
 import { useDispatch, useSelector } from 'react-redux'
@@ -17,7 +17,7 @@ import Button from 'react-bootstrap/Button'
 const Search = () => {
     const { authInfo } = useSelector((state) => state.auth)
     const [searchQuery, setSearchQuery] = useState('')
-    const [getSearchQuery] = useSearchQueryMutation()
+    // const [getSearchQuery] = useSearchQueryMutation()
 
     const [tracks, setTracks] = useState(null)
     const [artists, setArtists] = useState(null)
