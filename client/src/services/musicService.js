@@ -58,6 +58,14 @@ export const musicApiSlice = apiSlice.injectEndpoints({
             }),
         }),
 
+        searchQueryPost: builder.mutation({
+            query: (data) => ({
+                url: `${MUSIC_URL}/search`,
+                method: 'POST',
+                body: data,
+            }),
+        }),
+
         searchQueryAdvance: builder.mutation({
             query: (data) => ({
                 url: `${MUSIC_URL}/search/advance/${data.access_token}/${data.query}`,
@@ -105,6 +113,7 @@ export const {
     useGetSongIdMutation,
     useGetSongsSavedMutation,
     useSearchQueryMutation,
+    useSearchQueryPostMutation,
     useSearchQueryAdvanceMutation,
     useGetArtistsSavedMutation,
     useGetArtistIdMutation,

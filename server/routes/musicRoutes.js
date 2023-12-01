@@ -21,6 +21,7 @@ router.get(
     '/api/music/search/advance/:access_token/:query',
     controller.search_query_advance_get
 )
+router.post('/api/music/search', controller.search_query_post)
 router.get(
     '/api/music/search/:access_token/:query/:page',
     controller.search_query_get

@@ -2,8 +2,9 @@ import Navbar from '../components/navbar'
 import { Form } from 'react-bootstrap'
 import { useCallback, useEffect, useState } from 'react'
 import {
-    useSearchQueryAdvanceMutation,
+    // useSearchQueryAdvanceMutation,
     useSearchQueryMutation,
+    useSearchQueryPostMutation,
 } from '../services/musicService'
 import { useDispatch, useSelector } from 'react-redux'
 import SearchResultTracks from '../components/searchResultTracks'
@@ -26,7 +27,7 @@ const Search = () => {
     const [sortInfo, setSortInfo] = useState(null)
 
     const [searchParams, setSearchParams] = useSearchParams()
-    const [queryType, setQueryType] = useState('text')
+    // const [queryType, setQueryType] = useState('text')
 
     // const navigate = useNavigate()
     const searchNavigate = (data) => {
@@ -54,25 +55,36 @@ const Search = () => {
     }
 
     const dispatch = useDispatch()
+    const [postSearchQuery] = useSearchQueryPostMutation()
     const getSearchResults = useCallback(
         async (query) => {
             try {
-                console.log('on search, PAGE: ', page)
-
                 // GET SEARCH RESULTS
-                const res = await getSearchQuery({
+                // const res = await getSearchQuery({
+                //     access_token: authInfo?.access_token,
+                //     query,
+                //     page: JSON.stringify(page),
+                // }).unwrap()
+
+                const res = await postSearchQuery({
                     access_token: authInfo?.access_token,
                     query,
                     page: JSON.stringify(page),
                 }).unwrap()
 
-                console.log(res)
+                console.log('POST_SEARCH_RES: ', res)
+
                 if (
                     res?.error?.status === 401 &&
                     res?.error?.message === 'The access token expired'
                 ) {
                     dispatch(clearAuthInfo())
                 }
+
+                if (res?.type === 'track') return setTracks([res])
+                if (res?.type === 'artist') return setArtists([res])
+                if (res?.type === 'playlist') return setPlaylists([res])
+                if (res?.type === 'album') return setAlbums([res])
 
                 if (!sortInfo) {
                     const searchResultTracks = []
@@ -106,7 +118,7 @@ const Search = () => {
         },
         [
             sortInfo,
-            getSearchQuery,
+            postSearchQuery,
             authInfo,
             setTracks,
             setArtists,
@@ -119,16 +131,15 @@ const Search = () => {
 
     const onSearchQuery = async (query) => {
         try {
+            // 1. String / ID / Link query
             if (query === ('' || null)) {
                 setTracks(null),
                     setArtists(null),
                     setPlaylists(null),
                     setAlbums(null)
             }
-
             // SET SEARCH QUERIES IN THE URL
             setSearchParams(`?${new URLSearchParams({ q: query })}`)
-
             const currParams = searchParams?.get('s')
             setSearchParams(
                 `?${new URLSearchParams({ q: query, s: currParams })}`
@@ -138,49 +149,49 @@ const Search = () => {
         }
     }
 
-    const [getSearchAdvance] = useSearchQueryAdvanceMutation()
-    const searchAdvance = async (data) => {
-        try {
-            if (data === ('' || null)) {
-                setTracks(null),
-                    setArtists(null),
-                    setPlaylists(null),
-                    setAlbums(null)
-            }
+    // const [getSearchAdvance] = useSearchQueryAdvanceMutation()
+    // const searchAdvance = async (data) => {
+    //     try {
+    //         if (data === ('' || null)) {
+    //             setTracks(null),
+    //                 setArtists(null),
+    //                 setPlaylists(null),
+    //                 setAlbums(null)
+    //         }
 
-            const dataText = data
-            let id
+    //         const dataText = data
+    //         let id
 
-            if (dataText?.slice(0, 8) === 'https://') {
-                if (dataText.slice(25, 27) === 'pl') id = dataText.slice(34)
-                if (dataText.slice(25, 27) === 'al') id = dataText.slice(31)
-                if (dataText.slice(25, 27) === 'ar') id = dataText.slice(32)
-                if (dataText.slice(25, 27) === 'tr') id = dataText.slice(31)
-            } else {
-                id = dataText
-            }
+    //         if (dataText?.slice(0, 8) === 'https://') {
+    //             if (dataText.slice(25, 27) === 'pl') id = dataText.slice(34)
+    //             if (dataText.slice(25, 27) === 'al') id = dataText.slice(31)
+    //             if (dataText.slice(25, 27) === 'ar') id = dataText.slice(32)
+    //             if (dataText.slice(25, 27) === 'tr') id = dataText.slice(31)
+    //         } else {
+    //             id = dataText
+    //         }
 
-            console.log(956, id)
-            const res = await getSearchAdvance({
-                access_token: authInfo.access_token,
-                query: id,
-            }).unwrap()
+    //         console.log(956, id)
+    //         const res = await getSearchAdvance({
+    //             access_token: authInfo.access_token,
+    //             query: id,
+    //         }).unwrap()
 
-            if (
-                res?.error?.status === 401 &&
-                res?.error?.message === 'The access token expired'
-            ) {
-                dispatch(clearAuthInfo())
-            }
+    //         if (
+    //             res?.error?.status === 401 &&
+    //             res?.error?.message === 'The access token expired'
+    //         ) {
+    //             dispatch(clearAuthInfo())
+    //         }
 
-            if (res?.type === 'track') setTracks([res])
-            if (res?.type === 'artist') setArtists([res])
-            if (res?.type === 'playlist') setPlaylists([res])
-            if (res?.type === 'album') setAlbums([res])
-        } catch (err) {
-            console.log(err)
-        }
-    }
+    //         if (res?.type === 'track') setTracks([res])
+    //         if (res?.type === 'artist') setArtists([res])
+    //         if (res?.type === 'playlist') setPlaylists([res])
+    //         if (res?.type === 'album') setAlbums([res])
+    //     } catch (err) {
+    //         console.log(err)
+    //     }
+    // }
 
     // const searchLink = (data) => {
     //     console.log(data)
@@ -207,7 +218,7 @@ const Search = () => {
 
         if (searchParams?.get('s') === 'null') {
             setSortInfo(null)
-            console.log('test: ', searchParams?.get('s'))
+            // console.log('test: ', searchParams?.get('s'))
         }
     }, [searchParams, getSearchResults, setSearchParams])
 
@@ -219,21 +230,21 @@ const Search = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
-    const changeQueryType = (e) => {
-        setTracks(null)
-        setArtists(null)
-        setPlaylists(null)
-        setAlbums(null)
+    // const changeQueryType = (e) => {
+    //     setTracks(null)
+    //     setArtists(null)
+    //     setPlaylists(null)
+    //     setAlbums(null)
 
-        setQueryType(e)
-    }
+    //     setQueryType(e)
+    // }
 
     return (
         <div className="center-box">
             {/* navbar main */}
             <Navbar></Navbar>
 
-            <div>
+            {/* <div>
                 <Button
                     variant="dark"
                     className="btn-search"
@@ -255,7 +266,7 @@ const Search = () => {
                 >
                     Link
                 </Button>
-            </div>
+            </div> */}
 
             {/* search nav */}
             <Form
@@ -263,20 +274,18 @@ const Search = () => {
                     e.preventDefault()
                 }}
             >
-                {queryType === 'text' && (
-                    <Form.Control
-                        type="text"
-                        placeholder="Search"
-                        className="form-control"
-                        value={searchQuery}
-                        onChange={(e) => {
-                            setSearchQuery(e.target.value)
-                            onSearchQuery(e.target.value)
-                        }}
-                    />
-                )}
+                <Form.Control
+                    type="text"
+                    placeholder="Search"
+                    className="form-control"
+                    value={searchQuery}
+                    onChange={(e) => {
+                        setSearchQuery(e.target.value)
+                        onSearchQuery(e.target.value)
+                    }}
+                />
 
-                {queryType === 'id' && (
+                {/* {queryType === 'id' && (
                     <Form.Control
                         type="text"
                         placeholder="Search by ID / Link"
@@ -285,7 +294,7 @@ const Search = () => {
                             searchAdvance(e.target.value)
                         }}
                     />
-                )}
+                )} */}
             </Form>
 
             <div
