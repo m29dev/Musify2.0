@@ -655,7 +655,7 @@ svg.control-panel-btn {
     border: solid 2px #232323;
     border-radius: 18px;
     color: white;
-    width: 430px;
+    width: 400px;
     margin-top: 23px;
 }
 .form-control:hover {
@@ -730,6 +730,10 @@ leftbar div.card {
     width: 70px;
     border-radius: 18px;
     margin-right: 12px;
+}
+.btn-search-sort {
+    width: 90px;
+    border-radius: 18px;
 }
 
 /* active song */
@@ -976,6 +980,9 @@ leftbar div.card {
     }
     .search-results-box {
         padding: 0px;
+    }
+    .btn-search-sort {
+        width: 80px;
     }
     .card-item {
         /* min-width: 100px; */

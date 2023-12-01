@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react'
-import { Image, Dropdown } from 'react-bootstrap'
-import { useDispatch, useSelector } from 'react-redux'
+// import { Image, Dropdown } from 'react-bootstrap'
+import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import {
-    clearAccountInfo,
-    clearAuthInfo,
-    clearControlPanelInfo,
-    clearSongInfo,
-} from '../redux/authSlice'
+// import {
+//     clearAccountInfo,
+//     clearAuthInfo,
+//     clearControlPanelInfo,
+//     clearSongInfo,
+// } from '../redux/authSlice'
 // import { useAuthMutation } from '../services/authService'
 import {
     IoIosArrowDropleftCircle,
@@ -17,13 +17,13 @@ import { BiHomeAlt2 } from 'react-icons/bi'
 import { AiOutlineSearch } from 'react-icons/ai'
 // import { LuAlbum } from 'react-icons/lu'
 // import { ImSpotify } from 'react-icons/im'
-import { RxAvatar } from 'react-icons/rx'
+// import { RxAvatar } from 'react-icons/rx'
 
 const Navbar = () => {
     const [authMode, setAuthMode] = useState(false)
     const { authInfo } = useSelector((state) => state.auth)
-    const { accountInfo } = useSelector((state) => state.auth)
-    const dispatch = useDispatch()
+    // const { accountInfo } = useSelector((state) => state.auth)
+    // const dispatch = useDispatch()
 
     // const [authUser] = useAuthMutation()
     // const auth = async () => {
@@ -57,13 +57,12 @@ const Navbar = () => {
     }
 
     // sign out
-    const signOut = () => {
-        // clear local storage info
-        dispatch(clearAuthInfo())
-        dispatch(clearAccountInfo())
-        dispatch(clearControlPanelInfo())
-        dispatch(clearSongInfo())
-    }
+    // const signOut = () => {
+    //     dispatch(clearAuthInfo())
+    //     dispatch(clearAccountInfo())
+    //     dispatch(clearControlPanelInfo())
+    //     dispatch(clearSongInfo())
+    // }
 
     // refresh token
     // const [refreshToken] = useRefreshTokenMutation()
@@ -164,7 +163,7 @@ const Navbar = () => {
                     </div>
 
                     {/* nav account */}
-                    <Dropdown data-bs-theme="dark" drop="start">
+                    {/* <Dropdown data-bs-theme="dark" drop="start">
                         <Dropdown.Toggle
                             variant="none"
                             className="img-dropdown"
@@ -190,7 +189,7 @@ const Navbar = () => {
                                 Sign Out
                             </Dropdown.Item>
                         </Dropdown.Menu>
-                    </Dropdown>
+                    </Dropdown> */}
                 </div>
             )}
 

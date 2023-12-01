@@ -235,6 +235,7 @@ const Search = () => {
 
             <div>
                 <Button
+                    variant="dark"
                     className="btn-search"
                     disabled={queryType === 'text' ? true : false}
                     onClick={() => {
@@ -245,6 +246,7 @@ const Search = () => {
                 </Button>
 
                 <Button
+                    variant="dark"
                     className="btn-search"
                     disabled={queryType === 'id' ? true : false}
                     onClick={() => {
@@ -285,6 +287,56 @@ const Search = () => {
                     />
                 )}
             </Form>
+
+            <div
+                style={{
+                    paddingTop: '23px',
+                    width: '100%',
+                    maxWidth: '400px',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                }}
+            >
+                <Button
+                    variant="dark"
+                    className="btn-search-sort"
+                    onClick={() => {
+                        searchNavigate('songs')
+                    }}
+                >
+                    Songs
+                </Button>
+
+                <Button
+                    variant="dark"
+                    className="btn-search-sort"
+                    onClick={() => {
+                        searchNavigate('albums')
+                    }}
+                >
+                    Albums
+                </Button>
+
+                <Button
+                    variant="dark"
+                    className="btn-search-sort"
+                    onClick={() => {
+                        searchNavigate('artists')
+                    }}
+                >
+                    Artists
+                </Button>
+
+                <Button
+                    variant="dark"
+                    className="btn-search-sort"
+                    onClick={() => {
+                        searchNavigate('playlists')
+                    }}
+                >
+                    Playlists
+                </Button>
+            </div>
 
             {/* Search results box */}
             {!sortInfo && (

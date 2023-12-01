@@ -10,8 +10,12 @@ const SearchResultTracks = (tracks) => {
         try {
             const songArtist = track?.artists?.[0]?.name
             const songName = track?.name
+            let songSearch = `${songArtist} - ${songName}`
+            if (songSearch.includes('/')) {
+                songSearch = songSearch.replace('/', '')
+            }
 
-            const res = await getSong(`${songArtist} - ${songName}`).unwrap()
+            const res = await getSong(songSearch).unwrap()
 
             const songInfoObject = {
                 index,

@@ -36,9 +36,12 @@ const DetailsBox = (playlistData) => {
                 const songArtist = song?.artists[0]?.name
                 const songName = song?.name
 
-                const res = await getSong(
-                    `${songArtist} - ${songName}`
-                ).unwrap()
+                let songSearch = `${songArtist} - ${songName}`
+                if (songSearch.includes('/')) {
+                    songSearch = songSearch.replace('/', '')
+                }
+
+                const res = await getSong(songSearch).unwrap()
                 const songInfoObject = {
                     index,
                     spotify_playlist: playlist,
@@ -54,9 +57,12 @@ const DetailsBox = (playlistData) => {
                 const songArtist = song?.artists[0]?.name
                 const songName = song?.name
 
-                const res = await getSong(
-                    `${songArtist} - ${songName}`
-                ).unwrap()
+                let songSearch = `${songArtist} - ${songName}`
+                if (songSearch.includes('/')) {
+                    songSearch = songSearch.replace('/', '')
+                }
+
+                const res = await getSong(songSearch).unwrap()
                 const songInfoObject = {
                     index,
                     spotify_playlist: playlist,
