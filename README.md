@@ -4,7 +4,7 @@
 
 <h2>🚀 Demo</h2
                       
-[https://musifyclient.onrender.com](https://musifyclient.onrender.com)
+[https://musify2client.onrender.com](https://musify2client.onrender.com)
 
 
 <h2>💻 Built with</h2>
