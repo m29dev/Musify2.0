@@ -29,36 +29,36 @@ const Home = () => {
         }
     }, [dispatch])
 
-    // const [topSongs] = useGetSongsTopMutation()
+    // FETCH INIT PLAYLIST (IF SONGINFO IS NULL)
     const [getSong] = useGetSongIdMutation()
     const [initSong] = useGetSongInitMutation()
     const runInitSong = useCallback(async () => {
         try {
-            const res = await initSong(authInfo?.access_token).unwrap()
-            console.log('RES_TEST: ', res)
+            const playlist = await initSong(authInfo?.access_token).unwrap()
+            console.log('playlist_TEST: ', playlist)
 
             if (
-                res?.error?.status === 401 &&
-                res?.error?.message === 'The access token expired'
+                playlist?.error?.status === 401 &&
+                playlist?.error?.message === 'The access token expired'
             ) {
                 dispatch(clearAuthInfo())
             }
 
-            const songArtist = res?.artists?.[0]?.name
-            const songName = res?.name
+            const song = playlist?.tracks?.items[0]?.track
+            const songArtist = song?.artists[0]?.name
+            const songName = song?.name
 
-            const resYt = await getSong(`${songArtist} - ${songName}`).unwrap()
+            let songSearch = `${songArtist} - ${songName}`
+            if (songSearch.includes('/')) {
+                songSearch = songSearch.replace('/', '')
+            }
 
+            const res = await getSong(songSearch).unwrap()
             const songInfoObject = {
                 index: 0,
-                spotify_playlist: {
-                    tracks: { items: res?.items },
-                    type: res?.album?.type,
-                    name: res?.album?.name,
-                    images: res?.album?.images,
-                },
-                spotify_song: res?.items?.[0],
-                youtube_song: resYt,
+                spotify_playlist: playlist,
+                spotify_song: song,
+                youtube_song: res,
             }
             dispatch(setSongInfo(songInfoObject))
         } catch (err) {

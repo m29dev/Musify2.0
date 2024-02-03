@@ -1,7 +1,6 @@
-// GET
-
 const { search } = require('../routes/authRoutes')
 
+// GET
 // search for songs / artists / albums / playlists
 const search_query_get = async (req, res) => {
     try {
@@ -27,27 +26,8 @@ const search_query_get = async (req, res) => {
         const searchResults1 = await fetch(url1, { headers })
         const searchData1 = await searchResults1.json()
         if (!searchData1) return res.status(400).json({ message: 'err' })
-        // console.log(searchData1)
-        //data = [...data, ...searchData1]
+
         data = searchData1
-
-        // next 50 items
-        // const searchResults2 = await fetch(url2, { headers })
-        // const searchData2 = await searchResults2.json()
-        // if (!searchData2) return res.status(400).json({ message: 'err' })
-
-        // data.albums.items = [...data.albums.items, ...searchData2.albums.items]
-        // data.artists.items = [
-        //     ...data.artists.items,
-        //     ...searchData2.artists.items,
-        // ]
-        // data.playlists.items = [
-        //     ...data.playlists.items,
-        //     ...searchData2.playlists.items,
-        // ]
-        // data.tracks.items = [...data.tracks.items, ...searchData2.tracks.items]
-
-        // console.log(data.artists.items[0])
 
         res.status(200).json(data)
     } catch (err) {
@@ -192,28 +172,6 @@ const search_query_advance_get = async (req, res) => {
 }
 
 // GET
-// user's playlists
-// const playlists_get = async (req, res) => {
-//     try {
-//         const { access_token } = req.params
-
-//         const url = 'https://api.spotify.com/v1/me/playlists'
-//         const headers = {
-//             Authorization: 'Bearer ' + access_token,
-//         }
-
-//         const playlists = await fetch(url, { headers })
-//         const data = await playlists.json()
-
-//         if (!data) return res.status(400).json({ message: 'err' })
-
-//         res.status(200).json(data)
-//     } catch (err) {
-//         console.log(err)
-//     }
-// }
-
-// GET
 // ID playlist
 const playlists_id_get = async (req, res) => {
     try {
@@ -237,28 +195,6 @@ const playlists_id_get = async (req, res) => {
 }
 
 // GET
-// user's albums
-// const albums_get = async (req, res) => {
-//     try {
-//         const { access_token } = req.params
-
-//         const url = 'https://api.spotify.com/v1/me/albums'
-//         const headers = {
-//             Authorization: 'Bearer ' + access_token,
-//         }
-
-//         const albums = await fetch(url, { headers })
-//         const data = await albums.json()
-
-//         if (!data) return res.status(400).json({ message: 'err' })
-
-//         res.status(200).json(data)
-//     } catch (err) {
-//         console.log(err)
-//     }
-// }
-
-// GET
 // ID album
 const albums_id_get = async (req, res) => {
     try {
@@ -280,50 +216,6 @@ const albums_id_get = async (req, res) => {
         console.log(err)
     }
 }
-
-// GET
-// saved fav songs
-// const songs_saved_get = async (req, res) => {
-//     try {
-//         const { access_token } = req.params
-
-//         const url = 'https://api.spotify.com/v1/me/tracks'
-//         const headers = {
-//             Authorization: 'Bearer ' + access_token,
-//         }
-
-//         const albums = await fetch(url, { headers })
-//         const data = await albums.json()
-
-//         if (!data) return res.status(400).json({ message: 'err' })
-
-//         res.status(200).json(data)
-//     } catch (err) {
-//         console.log(err)
-//     }
-// }
-
-// GET
-// saved fav artists
-// const artists_saved_get = async (req, res) => {
-//     try {
-//         const { access_token } = req.params
-
-//         const url = 'https://api.spotify.com/v1/me/following?type=artist'
-//         const headers = {
-//             Authorization: 'Bearer ' + access_token,
-//         }
-
-//         const artists = await fetch(url, { headers })
-//         const data = await artists.json()
-
-//         if (!data) return res.status(400).json({ message: 'err' })
-
-//         res.status(200).json(data)
-//     } catch (err) {
-//         console.log(err)
-//     }
-// }
 
 // GET
 // artists id
@@ -369,39 +261,6 @@ const artists_id_get = async (req, res) => {
 }
 
 // GET
-// top song
-// const user_top_song_get = async (req, res) => {
-//     try {
-//         const { access_token } = req.params
-
-//         // top songs
-//         const url = `https://api.spotify.com/v1/me/top/tracks`
-//         const headers = {
-//             Authorization: 'Bearer ' + access_token,
-//         }
-//         const topSongs = await fetch(url, { headers })
-//         let data = await topSongs.json()
-
-//         if (!data) return res.status(400).json({ message: 'err' })
-
-//         if (data.items.length === 0) {
-//             const song = await fetch(
-//                 `https://api.spotify.com/v1/tracks/1rh232CwAy3EDEWFJkwH88`,
-//                 { headers }
-//             )
-//             const songData = await song.json()
-
-//             const songObject = { items: [songData] }
-//             data = songObject
-//         }
-
-//         res.status(200).json(data)
-//     } catch (err) {
-//         console.log(err)
-//     }
-// }
-
-// GET
 // init song
 const song_init_get = async (req, res) => {
     try {
@@ -414,33 +273,27 @@ const song_init_get = async (req, res) => {
         }
         const songInit = await fetch(url, { headers })
         let data = await songInit.json()
-
         if (!data) return res.status(400).json({ message: 'err' })
 
-        // if (
-        //     data?.error?.status === 401 &&
-        //     data?.error?.message === 'The access token expired'
-        // ) {
-        //     return console.log('405 init refresh token')
-        // }
+        // playlist init
+        const url1 = `https://api.spotify.com/v1/playlists/37i9dQZF1DXcBWIGoYBM5M?si=3c35e4eaa92b4821`
 
-        res.status(200).json(data)
+        const playlists = await fetch(url1, { headers })
+        const datap = await playlists.json()
+        if (!datap) return res.status(400).json({ message: 'err' })
+
+        res.status(200).json(datap)
     } catch (err) {
         console.log(err)
     }
 }
 
 module.exports = {
-    // playlists_get,
     playlists_id_get,
-    // albums_get,
     albums_id_get,
-    // songs_saved_get,
     search_query_get,
     search_query_post,
     search_query_advance_get,
-    // artists_saved_get,
     artists_id_get,
-    // user_top_song_get,
     song_init_get,
 }
