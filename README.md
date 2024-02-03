@@ -1,5 +1,6 @@
 <h1 id="title">Musify 2.0</h1>
-<p id="description">second version of my application </p> [https://github.com/m29dev/Musify](https://github.com/m29dev/Musify)
+<p id="description">second version of my application Musify</p>
+https://github.com/m29dev/Musify
 <p id="description">Application's a combination of the Spotify's music data and the YouTube's music videos</p>
 
 <h2>🚀 Demo</h2
